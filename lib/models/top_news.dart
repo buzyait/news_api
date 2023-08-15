@@ -15,7 +15,7 @@ class TopNews {
     return <String, dynamic>{
       'status': status,
       'totalResults': totalResults,
-      'articles': articles.map((x) => x.toMap()).toList(),
+      'articles': articles.map((x) => x.toJson()).toList(),
     };
   }
 

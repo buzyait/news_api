@@ -23,7 +23,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    TopNewsServies().fetchTopNews();
+    fetchNews();
   }
 
   @override

@@ -21,17 +21,17 @@ class Source {
 //     );
 //   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'name': name,
     };
   }
 
-  factory Source.fromMap(Map<String, dynamic> map) {
+  factory Source.fromJson(Map<String, dynamic> json) {
     return Source(
-      id: map['id'] != null ? map['id'] as String : null,
-      name: map['name'] != null ? map['name'] as String : null,
+      id: json['id'] != null ? json['id'] as String : null,
+      name: json['name'] != null ? json['name'] as String : null,
     );
   }
 }
