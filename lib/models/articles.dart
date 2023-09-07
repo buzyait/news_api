@@ -3,8 +3,8 @@ import 'source.dart';
 class Articles {
   const Articles({
     required this.source,
-    required this.author,
-    required this.title,
+    this.author,
+    this.title,
     required this.description,
     required this.url,
     this.urlToImage,
@@ -13,17 +13,17 @@ class Articles {
   });
 
   final Source source;
-  final String author;
-  final String title;
+  final String? author;
+  final String? title;
   final String? description;
   final String url;
   final String? urlToImage;
   final String publishedAt;
   final String? content;
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'source': source.toMap(),
+      'source': source.toJson(),
       'author': author,
       'title': title,
       'description': description,
@@ -36,9 +36,9 @@ class Articles {
 
   factory Articles.fromJson(Map<String, dynamic> json) {
     return Articles(
-      source: Source.fromMap(json['source'] as Map<String, dynamic>),
-      author: json['author'] as String,
-      title: json['title'] as String,
+      source: Source.fromJson(json['source'] as Map<String, dynamic>),
+      author: json['author'] != null ? json['author'] as String : null,
+      title: json['title'] != null ? json['title'] as String : null,
       description:
           json['description'] != null ? json['description'] as String : null,
       url: json['url'] as String,

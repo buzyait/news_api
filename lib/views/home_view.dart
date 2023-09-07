@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:news_api/constants/appi_const.dart';
+import 'package:news_api/models/articles.dart';
+
 import 'package:news_api/models/top_news.dart';
 import 'package:news_api/servies/fetch_servies.dart';
 import 'package:news_api/theme/app_colors.dart';
-import 'package:news_api/views/detali_view.dart';
+import 'package:news_api/views/detail_view.dart';
+import 'package:news_api/views/search_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
 
   @override
-  _HomeViewState createState() => _HomeViewState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
@@ -23,7 +25,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    TopNewsServies().fetchTopNews();
+    fetchNews();
   }
 
   @override
@@ -39,46 +41,56 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       body: topNews == null
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
           : ListView.builder(
-              //bul widget card tizip beret
               itemCount: topNews!.articles.length,
               itemBuilder: (context, index) {
                 final item = topNews!.articles[index];
-                return InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const DetaliView(),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: Image.network(
-                              item.urlToImage ?? ApiConst.image,
-                              fit: BoxFit.fitWidth,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 5,
-                            child: Text(
-                              item.title,
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              }),
+                return NewsCard(item: item);
+              },
+            ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.appBar,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SearchView(),
+            ),
+          );
+        },
+        child: const Icon(
+          Icons.search,
+          color: AppColors.white,
+        ),
+      ),
+    );
+  }
+}
+
+class NewsCard extends StatelessWidget {
+  const NewsCard({
+    super.key,
+    required this.item,
+  });
+
+  final Articles item;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailView(news: item),
+            ),
+          );
+        },
+      ),
     );
   }
 }

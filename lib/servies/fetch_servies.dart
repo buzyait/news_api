@@ -13,6 +13,7 @@ class TopNewsServies {
     //final url2 = Uri(scheme: 'https',host: 'newsapi.org',
     // path: 'v2')
     final response = await client.get(url);
+
     log(response.statusCode.toString());
     if (response.statusCode == 200 || response.statusCode == 201) {
       log(response.body);
@@ -28,5 +29,16 @@ class TopNewsServies {
     // print ekoonun ayrmasy-4ygara beret
     //log bolso dekloygo
     //pley marketke bargan bolso pomit eelebeit.ishtebeit
+  }
+
+  Future<TopNews?> fetchSearchService(String title) async {
+    final url = Uri.parse(ApiConst.searchNews(title));
+
+    final response = await client.get(url);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final data = jsonDecode(response.body);
+      final searchNews = TopNews.fromJson(data);
+      return null;
+    }
   }
 }
